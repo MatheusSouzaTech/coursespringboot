@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 
-@Entity
+@Entity //Anotacion do jpa para instruir como que ele vai converter os objetos para o modelo relacional
 @Table(name = "users")
 public class User implements Serializable {
 
@@ -12,7 +12,7 @@ public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
+    @Id //Definindo o id como id da tabela
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Chave primária com auto incremento
     private Long id;  // O id não deve ser static
 
