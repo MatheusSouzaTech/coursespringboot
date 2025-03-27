@@ -1,6 +1,6 @@
 package com.projetoudemy.coursespringboot.config;
 
-import com.projetoudemy.coursespringboot.User;
+import com.projetoudemy.coursespringboot.entities.User;
 import com.projetoudemy.coursespringboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -25,6 +25,7 @@ public class TestConfig implements CommandLineRunner {
         User u1 = new User(null,"Maria Brown", "maria@gmail.com","9888888","12345");
         User u2 = new User(null,"Alex Green", "alex@gmail.com", "977777466", "123456");
 
+        //puxando a dependencia que acessa os dados e salvando dos os dados coletados dentro do banco atraves da inserção de dependencias por um array
         userRepository.saveAll(Arrays.asList(u1,u2));
     }
 }

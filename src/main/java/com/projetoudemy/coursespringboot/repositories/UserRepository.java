@@ -1,8 +1,10 @@
 package com.projetoudemy.coursespringboot.repositories;
 
-import com.projetoudemy.coursespringboot.User;
+import com.projetoudemy.coursespringboot.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
 }

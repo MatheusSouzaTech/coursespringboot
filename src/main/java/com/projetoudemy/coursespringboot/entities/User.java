@@ -1,4 +1,4 @@
-package com.projetoudemy.coursespringboot;
+package com.projetoudemy.coursespringboot.entities;
 
 import jakarta.persistence.*;
 import java.io.Serial;
@@ -20,6 +20,8 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private String password;
+
+    public User() {}
 
     // Construtor com parâmetros
     public User(Long id, String name, String email, String phone, String password) {
