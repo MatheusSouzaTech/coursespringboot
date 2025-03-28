@@ -3,6 +3,8 @@ package com.projetoudemy.coursespringboot.entities;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity //Anotacion do jpa para instruir como que ele vai converter os objetos para o modelo relacional
 @Table(name = "users")
@@ -20,6 +22,10 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private String password;
+
+    //Associassão com a classe Order
+    @OneToMany(mappedBy = "client")//Mapeando o atributo
+    private List<Order> orders = new ArrayList<>();
 
     public User() {}
 
@@ -48,6 +54,11 @@ public class User implements Serializable {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
+    //Get para a lista de pedidos
+    public List<Order> getOrders(){
+        return orders;
+    }
+
     // hashCode e equals para comparação baseada no ID
     @Override
     public int hashCode() {
@@ -64,4 +75,6 @@ public class User implements Serializable {
         User other = (User) obj;
         return id != null && id.equals(other.id);
     }
+
+
 }
