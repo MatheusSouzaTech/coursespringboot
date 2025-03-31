@@ -1,10 +1,12 @@
 package com.projetoudemy.coursespringboot.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @Entity //Anotacion do jpa para instruir como que ele vai converter os objetos para o modelo relacional
 @Table(name = "users")
@@ -17,13 +19,13 @@ public class User implements Serializable {
     @Id //Definindo o id como id da tabela
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Chave primária com auto incremento
     private Long id;  // O id não deve ser static
-
     private String name;
     private String email;
     private String phone;
     private String password;
 
     //Associassão com a classe Order
+    @JsonIgnore //ele ignora o campo durante a serialização do mesmo e armazenamento impedindo que se crie um loop jackson dentro do banco quando for chamado
     @OneToMany(mappedBy = "client")//Mapeando o atributo
     private List<Order> orders = new ArrayList<>();
 
@@ -75,6 +77,8 @@ public class User implements Serializable {
         User other = (User) obj;
         return id != null && id.equals(other.id);
     }
+
+
 
 
 }

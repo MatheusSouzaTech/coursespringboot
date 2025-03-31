@@ -1,5 +1,6 @@
 package com.projetoudemy.coursespringboot.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -18,6 +19,8 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //Entidades
     private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT") //Garante que o instante seja mostrado no Json como string usar a anotacion @JsonFormat.Shape
     private Instant moment;
 
     //Associação a classe User
