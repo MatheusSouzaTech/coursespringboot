@@ -1,6 +1,7 @@
 package com.projetoudemy.coursespringboot.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.projetoudemy.coursespringboot.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -23,6 +24,8 @@ public class Order implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT") //Garante que o instante seja mostrado no Json como string usar a anotacion @JsonFormat.Shape
     private Instant moment;
 
+    private Integer orderStatus;
+
     //Associação a classe User
     @ManyToOne//Instrui a JPA a transforma o cliente em uma chave estrangeira usasse esta anotation
     @JoinColumn(name = "cliente_id") //Define o nome que a chave estrangeira ira ter na outra tabela
@@ -30,9 +33,10 @@ public class Order implements Serializable {
 
     public Order() {}
 
-    public Order(Long id , Instant moment, User client){
+    public Order(Long id , Instant moment,OrderStatus orderStatus, User client){
         this.id = id;
         this.moment = moment;
+        setOrderStatus(orderStatus); //executa o processo de conversão de tipos dentro do contrutor
         this.client = client;
     }
 
@@ -49,6 +53,16 @@ public class Order implements Serializable {
 
     public void setMoment(Instant moment){
         this.moment = moment;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus); //Convertendo o numero inteiro para o enum orderStatus
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if (orderStatus != null) { // para caso o programador passe um valor nulo para contruir um objeto
+            this.orderStatus = orderStatus.getCode();//Fazendo o processo inverso da conversão de um orderStatus para um valor inteiro processo interno
+        }
     }
 
     public User getClient() {
