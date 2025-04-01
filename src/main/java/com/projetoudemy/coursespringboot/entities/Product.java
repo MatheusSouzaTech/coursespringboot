@@ -9,8 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "product")
-public class Products implements Serializable {
+@Table(name = "products")
+public class Product implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -24,13 +24,17 @@ public class Products implements Serializable {
     private String imgUrl;
 
     //Set representa um conjunto garantindo que você não vai ter um produto com mais de uma ocorrencia da mesma categoria
+    @ManyToMany
+    //joincolumns nome da chave estrangeira referente a tabela de produtos
+    //inversejoincolumns refere o nome da categoria da outra entidade
+    @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>(); //a instanciação garante que a coleção não comece com um valor nulo | HashSet classe correspondente a interface pois a interface em si não pode ser instanciada
 
 
-    public Products() {
+    public Product() {
     }
 
-    public Products(Long id, String name, String description, Double price, String imgUrl) {
+    public Product(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -85,7 +89,7 @@ public class Products implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Products products = (Products) o;
+        Product products = (Product) o;
         return Objects.equals(id, products.id);
     }
 
