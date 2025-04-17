@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders") // Define o nome da tabela como "orders" no banco de dados
@@ -34,6 +36,11 @@ public class Order implements Serializable {
     @ManyToOne // Indica o relacionamento Many-to-One entre Order e User
     @JoinColumn(name = "cliente_id") // Nome da coluna da chave estrangeira na tabela de pedidos
     private User client;
+
+
+    @OneToMany(mappedBy = "id.order") //Pega o id do pedido dentro do atributo orderItempk
+    private Set<OrderItem> items = new HashSet<>();
+
 
     // Construtor padrão (necessário para JPA)
     public Order() {}
@@ -82,6 +89,10 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Set<OrderItem> getItems(){ //pedido pode agora acessar e reconhecer seus items
+        return items;
     }
 
     // Implementação de equals e hashCode baseada apenas no ID
