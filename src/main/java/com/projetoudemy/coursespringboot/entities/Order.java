@@ -10,68 +10,81 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table (name = "orders")
+@Table(name = "orders") // Define o nome da tabela como "orders" no banco de dados
 public class Order implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //Entidades
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Define o ID com geração automática (auto incremento)
     private Long id;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT") //Garante que o instante seja mostrado no Json como string usar a anotacion @JsonFormat.Shape
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",
+            timezone = "GMT"
+    )
+    // Formata a data no padrão ISO 8601 como string no formato UTC ao serializar para JSON
     private Instant moment;
 
-    private Integer orderStatus;
+    private Integer orderStatus; // Status do pedido (usando enum)
 
-    //Associação a classe User
-    @ManyToOne//Instrui a JPA a transforma o cliente em uma chave estrangeira usasse esta anotation
-    @JoinColumn(name = "cliente_id") //Define o nome que a chave estrangeira ira ter na outra tabela
+    // Associação com a entidade User (muitos pedidos para um cliente)
+    @ManyToOne // Indica o relacionamento Many-to-One entre Order e User
+    @JoinColumn(name = "cliente_id") // Nome da coluna da chave estrangeira na tabela de pedidos
     private User client;
 
+    // Construtor padrão (necessário para JPA)
     public Order() {}
 
-    public Order(Long id , Instant moment,OrderStatus orderStatus, User client){
+    // Construtor com argumentos
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         this.id = id;
         this.moment = moment;
-        setOrderStatus(orderStatus); //executa o processo de conversão de tipos dentro do contrutor
-        this.client = client;
+        //Atribuindo o objeto orderStatus para a classe Order
+        setOrderStatus(orderStatus); // Atribui o status do pedido
+        this.client = client;           // Atribui o cliente associado
     }
 
-    public Long getId(){
+    // Getters e Setters
+    public Long getId() {
         return id;
     }
-    public void setId(Long id){
+
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Instant getMoment(){
+    public Instant getMoment() {
         return moment;
     }
 
-    public void setMoment(Instant moment){
+    public void setMoment(Instant moment) {
         this.moment = moment;
     }
 
     public OrderStatus getOrderStatus() {
-        return OrderStatus.valueOf(orderStatus); //Convertendo o numero inteiro para o enum orderStatus
+        //Convertendo o numero inteiro para o objeto OrderStatus
+        return OrderStatus.valueOf(orderStatus);
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
-        if (orderStatus != null) { // para caso o programador passe um valor nulo para contruir um objeto
-            this.orderStatus = orderStatus.getCode();//Fazendo o processo inverso da conversão de um orderStatus para um valor inteiro processo interno
+        //pegando o numero inteiro correspondente ao OrderStatus
+        if(orderStatus != null){
+        this.orderStatus = orderStatus.getCode();
         }
     }
 
     public User getClient() {
         return client;
     }
-    public void setClient(User client){
+
+    public void setClient(User client) {
         this.client = client;
     }
 
+    // Implementação de equals e hashCode baseada apenas no ID
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -8,23 +8,27 @@ public enum OrderStatus {
     DELIVERED(4),
     CANCELED(5);
 
-    private final int code; // atributo para receber valores numericos
+    private final int code; // Atributo para armazenar o valor numérico associado ao status
 
-    private OrderStatus(int code){ //Construtor para iniciar com os codigos ou valores numericos ja carregados
+    // Construtor para inicializar a enumeração com o código numérico correspondente
+    private OrderStatus(int code) {
         this.code = code;
     }
 
-    public int getCode(){ //metodo para tornar visivel para o mundo exterior ou para fora do banco de dados na leitura
+    // Metodo getter para expor o valor numérico do status
+    public int getCode() {
         return code;
     }
 
-    //Metodo statico para converter um valor numerico para um tipo enumerado, metodo estatico funcionara sem precisar instancialos
-    public static OrderStatus valueOf(int code){
-        for (OrderStatus value : OrderStatus.values()){ //percorre todos os valores possiveis do OrderStatus e para cada um deles testar se o codigo é correspondente e retornalo
-            if(value.getCode() == code){
+    // Metodo estático que converte um valor numérico para o tipo enumerado correspondente
+    public static OrderStatus valueOf(int code) {
+        // Percorre todos os valores possíveis do enum e retorna o que corresponde ao código fornecido
+        for (OrderStatus value : OrderStatus.values()) {
+            if (value.getCode() == code) {
                 return value;
             }
         }
-        throw new IllegalArgumentException("Invalid OrderStatus code"); // Exceção para caso o valor do code não for correspondente aos valores disponiveis
+        // Lança exceção se o código informado não for válido
+        throw new IllegalArgumentException("Invalid OrderStatus code: " + code);
     }
 }

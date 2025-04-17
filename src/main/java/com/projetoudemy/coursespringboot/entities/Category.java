@@ -9,30 +9,34 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-
 @Entity
-@Table(name = "tb_category")
+@Table(name = "tb_category") // Define o nome da tabela no banco de dados como "tb_category"
 public class Category implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id //Definindo o id como id da tabela
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Chave primária com auto incremento
+    @Id // Indica que o campo 'id' é a chave primária da entidade
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Define a estratégia de auto incremento para o ID
     private Long id;
+
     private String name;
 
+    // Ignora a serialização do campo 'products' para evitar loop infinito em respostas JSON
     @JsonIgnore
-    @ManyToMany(mappedBy = "categories")
-    private Set<Product> products =new HashSet<>();
+    @ManyToMany(mappedBy = "categories") // Relacionamento muitos-para-muitos, mapeado pelo atributo 'categories' na entidade Product
+    private Set<Product> products = new HashSet<>();
 
-    public Category(){}
+    // Construtor padrão (necessário para o JPA)
+    public Category() {}
 
+    // Construtor com argumentos
     public Category(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -53,6 +57,7 @@ public class Category implements Serializable {
         return products;
     }
 
+    // Implementação de equals e hashCode baseada apenas no ID, para garantir consistência entre entidades
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -64,7 +69,4 @@ public class Category implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
-
-
 }
