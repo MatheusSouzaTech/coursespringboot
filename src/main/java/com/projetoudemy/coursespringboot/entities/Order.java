@@ -41,6 +41,8 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "id.order") //Pega o id do pedido dentro do atributo orderItempk
     private Set<OrderItem> items = new HashSet<>(); //Coleção de items
 
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL) //Mapeando as duas entidades para ter o mesmo ID é obrigado na relação um para um
+    private  Payment payment;
 
     // Construtor padrão (necessário para JPA)
     public Order() {}
@@ -89,6 +91,14 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Set<OrderItem> getItems(){ //pedido pode agora acessar e reconhecer seus items
