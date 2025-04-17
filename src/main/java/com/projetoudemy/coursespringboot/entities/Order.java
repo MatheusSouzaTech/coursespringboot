@@ -39,7 +39,7 @@ public class Order implements Serializable {
 
 
     @OneToMany(mappedBy = "id.order") //Pega o id do pedido dentro do atributo orderItempk
-    private Set<OrderItem> items = new HashSet<>();
+    private Set<OrderItem> items = new HashSet<>(); //Coleção de items
 
 
     // Construtor padrão (necessário para JPA)
@@ -94,6 +94,8 @@ public class Order implements Serializable {
     public Set<OrderItem> getItems(){ //pedido pode agora acessar e reconhecer seus items
         return items;
     }
+
+
 
     // Implementação de equals e hashCode baseada apenas no ID
     @Override
