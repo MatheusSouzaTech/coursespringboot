@@ -2,6 +2,7 @@ package com.projetoudemy.coursespringboot.resources;
 
 import com.projetoudemy.coursespringboot.entities.User;
 import com.projetoudemy.coursespringboot.services.UserService;
+import jakarta.persistence.PostUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,13 @@ public class UserResource {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj){
+        obj = service.update(id,obj);
+        return ResponseEntity.ok().body(obj);
+    }
+
 
 
 }
