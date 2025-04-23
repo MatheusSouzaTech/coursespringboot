@@ -30,7 +30,7 @@ public class Order implements Serializable {
     // Formata a data no padrão ISO 8601 como string no formato UTC ao serializar para JSON
     private Instant moment;
 
-    private Integer orderStatus; // Status do pedido (usando enum)
+    private Integer orderStatus; //Status do pedido (usando enum)
 
     // Associação com a entidade User (muitos pedidos para um cliente)
     @ManyToOne // Indica o relacionamento Many-to-One entre Order e User
@@ -105,7 +105,13 @@ public class Order implements Serializable {
         return items;
     }
 
-
+    public Double getTotal(){
+        double sum = 0.0;
+        for (OrderItem x : items){
+            sum += x.getSubTotal();
+        }
+        return sum;
+    }
 
     // Implementação de equals e hashCode baseada apenas no ID
     @Override
