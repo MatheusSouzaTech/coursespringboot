@@ -2,6 +2,7 @@ package com.projetoudemy.coursespringboot.services;
 
 import com.projetoudemy.coursespringboot.entities.User;
 import com.projetoudemy.coursespringboot.repositories.UserRepository;
+import com.projetoudemy.coursespringboot.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class UserService {
 
     public User findById(Long id){
         Optional<User> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id)); //metodo que lança uma exeção caso não tenha um id com o usuario selecionado
     }
 
     public User insert(User obj){ //insere no banco de dados um novo usuario chamado User
